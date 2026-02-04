@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập tài khoản</title>
+</head>
+
+<body>
+    <div class="vien">
+        <label for="username">
+            <input type="text" id="username" placeholder="Tên đăng nhập">
+            <p>Vui lòng không nhập quá 20 ký tự</p>
+        </label>
+        <label for="password">
+            <input type="password" id="password" placeholder="Mật khẩu">
+            <p>Sử dụng các kí tự a-z, 0-9, và ký tự đặc biệt</p>
+            <p>Không quá 20 ký tự</p>
+        </label>
+        <label for="submit">
+            <input type="submit" id="submit" value="Đăng nhập">
+        </label>
+    </div>
+    <h3 class="dangki">Chưa có tài khoản??? <a href="/assets/trangbenngoai/dangki.html">Đăng ký ngay</a></h3>
+</body>
+<style>
+    .vien {
+        max-width: 500px;
+        max-height: 400px;
+        border: 1px solid black;
+        margin: auto;
+        margin-top: 100px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+    .dangki {
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
+<script>
+    document.getElementById("submit").addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Regex kiểm tra
+        const usernameRegex = /^[a-zA-Z0-9]{6,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+        if (!username || !password) {
+            alert("Vui lòng điền đầy đủ thông tin!");
+            return;
+        }
+
+        if (!usernameRegex.test(username)) {
+            alert("Tên đăng nhập phải ≥ 6 ký tự và chỉ gồm chữ & số!");
+            return;
+        }
+
+        if (!passwordRegex.test(password)) {
+            alert("Mật khẩu phải ≥ 8 ký tự, có chữ hoa, chữ thường và số!");
+            return;
+        }
+
+        alert("Đăng nhập thành công 🎉");
+    });
+</script>
+
+</html>

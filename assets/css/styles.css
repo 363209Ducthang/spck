@@ -1,0 +1,21 @@
+.w-100 {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+.cardflashsale {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+.cardbestseller {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    justify-content: center;
+}

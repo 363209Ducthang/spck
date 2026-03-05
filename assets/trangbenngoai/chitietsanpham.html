@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Sản Phẩm</title>
+</head>
+<body>
+    <div class="product">
+    <h3>Sản phẩm 1</h3>
+    <button class="detail" data-id="1">Chi tiết sản phẩm</button>
+</div>
+
+<div class="product">
+    <h3>Sản phẩm 2</h3>
+    <button class="detail" data-id="2">Chi tiết sản phẩm</button>
+</div>
+
+<div id="chitiet"></div>
+</body>
+<script>
+    let sanpham = {
+    1: {
+        ten: "Điện thoại iPhone",
+        gia: "20.000.000",
+        mota: "iPhone chip mạnh, camera đẹp"
+    },
+    2: {
+        ten: "Laptop Gaming",
+        gia: "30.000.000",
+        mota: "Laptop chơi game cấu hình cao"
+    }
+};
+
+let buttons = document.querySelectorAll(".detail");
+
+buttons.forEach(function(btn){
+    btn.onclick = function(){
+
+        let id = btn.dataset.id;
+
+        let sp = sanpham[id];
+
+        document.getElementById("chitiet").innerHTML =
+        `
+        <h2>${sp.ten}</h2>
+        <p>Giá: ${sp.gia}</p>
+        <p>${sp.mota}</p>
+        `;
+    }
+});
+</script>
+</html>

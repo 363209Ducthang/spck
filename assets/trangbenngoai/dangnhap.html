@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <a href="../../index.html" class="back-btn">← Quay trở về trang chính</a>
     <div class="vien">
         <label for="username">
             <input type="text" id="username" placeholder="Tên đăng nhập">
@@ -25,6 +26,32 @@
     <h3 class="dangki">Chưa có tài khoản??? <a href="/assets/trangbenngoai/dangki.html">Đăng ký ngay</a></h3>
 </body>
 <style>
+    .back-btn {
+        display: inline-block;
+        margin: 20px 20px 0 20px;
+        padding: 10px 20px;
+        background-color: #2196F3;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+    }
+
+    .back-btn:hover {
+        background-color: #0b7dda;
+        box-shadow: 0 4px 12px rgba(33, 150, 243, 0.5);
+        transform: translateY(-2px);
+        color: white;
+        text-decoration: none;
+    }
+
+    .back-btn:active {
+        transform: translateY(0);
+    }
+
     .vien {
         max-width: 500px;
         max-height: 400px;

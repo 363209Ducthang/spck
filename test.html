@@ -1,15 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>MyFlix - Xem Phim Online</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #141414;
+            color: #fff;
+        }
+        header {
+            background-color: #1f1f1f;
+            padding: 20px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+        .movie-card {
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+        .movie-card img {
+            width: 100%;
+            display: block;
+        }
+        .movie-info {
+            padding: 10px;
+        }
+        .movie-title {
+            font-size: 1em;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        .movie-rate {
+            font-size: 0.9em;
+            color: #f1c40f;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1f1f1f;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
 </head>
 <body>
-    
+    <header>MyFlix</header>
+    <div class="movie-grid" id="movieGrid">
+        <!-- Phim sẽ được load vào đây -->
+    </div>
+    <footer>© 2026 MyFlix - Demo xem phim</footer>
+
+    <script>
+        const options = { method: 'GET', headers: { accept: 'application/json' } };
+
+        async function loadMovies() {
+            try {
+                const res = await fetch('https://ophim1.com/v1/api/home', options);
+                const data = await res.json();
+
+                const movies = data.items[0].items; // lấy danh sách phim hot
+                const grid = document.getElementById('movieGrid');
+
+                movies.forEach(movie => {
+                    const card = document.createElement('div');
+                    card.className = 'movie-card';
+                    card.innerHTML = `
+                        <img src="${movie.coverHorizontal}" alt="${movie.title}">
+                        <div class="movie-info">
+                            <div class="movie-title">${movie.title}</div>
+                            <div class="movie-rate">⭐ ${movie.imdb || 'N/A'}</div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => {
+                        alert('Chức năng xem phim chưa được tích hợp.\nBạn có thể thêm iframe player hoặc trang chi tiết phim ở đây.');
+                    });
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                console.error(err);
+                alert('Không thể tải phim, vui lòng thử lại sau.');
+            }
+        }
+
+        loadMovies();
+    </script>
 </body>
-<script>
-    var run = 'nkj'
-    console.log(run);
-</script>
 </html>

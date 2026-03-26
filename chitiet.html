@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi tiết sản phẩm</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body {
+    background: linear-gradient(to right, #494c4e, #2b2c2c);
+    min-height: 100vh;
+}
+.navbar-brand img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+.product-main { display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
+.product-images { flex: 1; }
+.product-images img { width: 100%; border-radius: 12px; }
+.product-info { flex: 1; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+.product-info h1 { font-size: 2rem; }
+.price-section { margin: 15px 0; }
+.price-old { text-decoration: line-through; color: #888; font-size: 1rem; }
+.price-new { color: #d32f2f; font-size: 1.6rem; font-weight: bold; }
+.status { font-size: 1.1rem; color: green; margin-bottom: 10px; }
+.btn-buy { width: 100%; }
+.product-tabs .nav-link { font-weight: bold; }
+.comment-box textarea { width: 100%; border-radius: 8px; border: 1px solid #ccc; resize: none; padding: 10px; }
+.comment-box button { margin-top: 10px; }
+</style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<div class="container-fluid">
+    <a class="navbar-brand" href="/index.html"><img src="/assets/img/Neymar.png" alt=""></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link active" href="/assets/trangbenngoai/lienhekhachhang.html">Liên hệ khách hàng</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/assets/trangbenngoai/xaydungcauhinh.html">Xây dựng cấu hình</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/assets/trangbenngoai/tintuccongnghe.html">Tin tức công nghệ</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/assets/trangbenngoai/giohang.html">Giỏ hàng</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/assets/trangbenngoai/dangnhap.html">Tài khoản</a></li>
+        </ul>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+</nav>
+
+<div class="container">
+    <!-- Thông tin sản phẩm -->
+    <div class="product-main" id="product-detail"></div>
+
+    <!-- Tabs mô tả & thông số kỹ thuật -->
+    <div class="product-tabs mt-4">
+        <ul class="nav nav-tabs" id="tabMenu">
+            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#desc">Mô tả</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#spec">Thông số</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#reviews">Reviews</a></li>
+        </ul>
+        <div class="tab-content p-3 border bg-white">
+            <div class="tab-pane fade show active" id="desc">Đang cập nhật mô tả chi tiết sản phẩm...</div>
+            <div class="tab-pane fade" id="spec">Đang cập nhật thông số kỹ thuật...</div>
+            <div class="tab-pane fade" id="reviews">
+                <div id="comment-list" class="list-group"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gửi bình luận -->
+    <div class="comments-section mt-4">
+        <h5>Bình luận của bạn</h5>
+        <div class="comment-box">
+            <textarea id="comment-input" rows="3" placeholder="Viết bình luận..."></textarea>
+            <button class="btn btn-primary" id="submit-comment">Gửi bình luận</button>
+        </div>
+    </div>
+
+    <!-- Sản phẩm gợi ý Carousel -->
+    <div class="suggested-products mt-5">
+        <h5>Sản phẩm gợi ý khác</h5>
+        <div id="suggestedCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" id="carousel-inner"></div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#suggestedCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Trước</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#suggestedCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Sau</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+const products = JSON.parse(localStorage.getItem("products")) || [];
+const product = products.find(p => p.id == id);
+
+const detail = document.getElementById("product-detail");
+if(product){
+    detail.innerHTML = `
+        <div class="product-images"><img src="${product.img}" alt="${product.title}"></div>
+        <div class="product-info">
+            <h1>${product.title}</h1>
+            <div class="status">✔️ Còn hàng</div>
+            <div class="price-section">
+                <span class="price-new">${product.newprice}</span>
+                <span class="price-old ms-2">${product.oldprice}</span>
+            </div>
+            <p>Giảm giá: ${product.giamgia}</p>
+            <p>Còn lại: ${product.sanphamcon} / ${product.soluong}</p>
+            <button class="btn btn-danger btn-buy">Thêm vào giỏ hàng</button>
+        </div>
+    `;
+    document.getElementById("desc").innerHTML = product.description || "Đang cập nhật mô tả chi tiết sản phẩm...";
+    document.getElementById("spec").innerHTML = product.specs || "Đang cập nhật thông số kỹ thuật...";
+}
+
+// Bình luận đơn giản
+document.getElementById("submit-comment").onclick = () => {
+    const text = document.getElementById("comment-input").value.trim();
+    if(text){
+        const li = document.createElement("div");
+        li.className = "list-group-item";
+        li.textContent = text;
+        document.getElementById("comment-list").appendChild(li);
+        document.getElementById("comment-input").value = "";
+    }
+};
+
+// Sản phẩm gợi ý Carousel 6 sp
+const carouselInner = document.getElementById("carousel-inner");
+const otherProducts = products.filter(p => p.id != id);
+function shuffleArray(array){
+    for(let i=array.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [array[i], array[j]]=[array[j], array[i]];
+    }
+    return array;
+}
+const randomSuggested = shuffleArray(otherProducts).slice(0,6);
+
+// Chia 3 sản phẩm mỗi slide
+for(let i=0;i<randomSuggested.length;i+=3){
+    const group = randomSuggested.slice(i,i+3);
+    const carouselItem = document.createElement("div");
+    carouselItem.className = "carousel-item" + (i===0 ? " active" : "");
+    carouselItem.innerHTML = `
+        <div class="d-flex justify-content-around">
+            ${group.map(p => `
+                <div class="card" style="width:180px;">
+                    <img src="${p.img}" class="card-img-top" alt="${p.title}" style="height:140px; object-fit:cover;">
+                    <div class="card-body p-2">
+                        <h6 class="card-title">${p.title}</h6>
+                        <p class="text-danger mb-1">${p.newprice}</p>
+                        <a href="chitiet.html?id=${p.id}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    carouselInner.appendChild(carouselItem);
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

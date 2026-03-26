@@ -1,53 +1,63 @@
 const product = [
     {
-        id: 1,
-        title: "Bộ PC Gaming Intel Core i5-14600KF, Ram 16GB, VGA RTX 5060 [TẶNG MÀN HÌNH]",
-        img: "https://nguyencongpc.vn/media/product/250-27600-pc-gaming-intel-core-i5-14600kf-ram-16gb-vga-rtx-5060-01.jpg",
-        oldprice: "29.990.000đ",
-        newprice: "27.800.000đ",
-        giamgia: "7%",
-        soluong: 5,
-        sanphamcon: 4
+        "id": "1",
+                "title": "Bộ PC Gaming i5-12400F, RAM 16GB, RTX 3060 12GB [TẶNG MÀN HÌNH]",
+                "img": "https://nguyencongpc.vn/media/product/27016-pc-gaming-25251328.jpg",
+                "oldprice": "22.090.000đ",
+                "newprice": "21.090.000đ",
+                "giamgia": "7%",
+                "soluong": 5,
+                "sanphamcon": 4,
+                "description": "<p>Bộ PC Gaming i5-12400F, RAM 16GB, RTX 3060 12GB [TẶNG MÀN HÌNH]</p><ul><li> Tặng Màn Hình :  Màn hình VSP IP2407S Hoặc EDRA EGM24F100s</li><li> RAM 16GB DDR4 3200MHz Tản Nhiệt</li><li>CPU Intel Core: i5-12400F</li><li>Card đồ họa ASL RTX 3060 LHR 12GB GDDR6</li><li>Vỏ case XIGMATEK PANO M NANO ARTIC 3GF</li></ul>",
+                "specs": "<table class='table table-bordered'><tr><th>CPU</th><td>ntel Core I5-12400F Tray NEW (6 Nhân 12 Luồng)</td></tr><tr><th>RAM</th><td>Ram 16GB DDR4 bus 3200</td></tr><tr><th>PSU</th><td>Nguồn MIK SPOWER C650B - 650W Bronze</td></tr><tr><th>Ổ cứng</th><td>SSD 500GB NVMe </td></tr><tr><th>Tản nhiệt CPU</th><td>Tản nhiệt khí RGB</td></tr></table>"
     },
     {
-        id: 2,
-        title: "Bộ PC Gaming i5-12400F, RAM 16GB, RTX 3060 12GB [TẶNG MÀN HÌNH]",
-        img: "https://nguyencongpc.vn/media/product/27016-pc-gaming-25251328.jpg",
-        oldprice: "21.090.000₫",
-        newprice: "21.090.000đ",
-        giamgia: "0%",
-        soluong: 5,
-        sanphamcon: 2
+        "id": "2",
+                "title": "Bộ máy chủ Supermicro VFG-SYS-531A-I-1651 (Xeon W5-2555X, 16GB DDR5 ECC, SSD 240GB)",
+                "img": "https://nguyencongpc.vn/media/product/250-29260-supermicro-vfg-sys-531a-i-1651-05.jpg",
+                "oldprice": "105.990.000₫",
+                "newprice": "93.500.000đ",
+                "giamgia": "7%",
+                "soluong": 5,
+                "sanphamcon": 4,
+                "description": "<p>Bộ máy chủ Supermicro VFG-SYS-531A-I-1651 (Xeon W5-2555X, 16GB DDR5 ECC, SSD 240GB)</p><ul><li>Dòng máy chủ: Supermicro</li><li>Mainboard: Supermicro X13SRA-TF</li><li>CPU: Intel Xeon W5-2555X</li><li>RAM: 16GB DDR5 ECC</li><li>Ổ cứng: SSD 2.5 SATA 240GB</li></ul>",
+                "specs": "<table class='table table-bordered'><tr><th>CPU</th><td>1 x Intel Xeon W5-2555X</td></tr><tr><th>RAM</th><td>1 x 16GB DDR5-5600 ECC RDIMM</td></tr><tr><th>PSU</th><td>1200W Power Supply</td></tr><tr><th>Ổ cứng</th><td>SSD 2.5 SATA 240GB</td></tr><tr><th>Tản nhiệt CPU</th><td>	1 x SNK-P0090AP4</td></tr></table>"
     },
     {
-        id: 3,
-        title: "Bộ PC Gaming AMD Ryzen 5 5500, RAM 16GB, RTX 3050 6GB [TẶNG MÀN HÌNH]",
-        img: "https://nguyencongpc.vn/media/product/250-27719-pc-gaming-amd-ryzen-5-5500-ram-16gb-rtx-3050-6gb-17.jpg",
-        oldprice: "19.090.000₫",
-        newprice: "17.090.000đ",
-        giamgia: "Tiết kiệm 2.000.000đ",
-        soluong: 5,
-        sanphamcon: 1
+        "id": "3",
+                "title": "Bộ máy chủ Supermicro VFG-SYS-531A-I-1651 (Xeon W5-2555X, 16GB DDR5 ECC, SSD 240GB)",
+                "img": "https://nguyencongpc.vn/media/product/250-29260-supermicro-vfg-sys-531a-i-1651-05.jpg",
+                "oldprice": "105.990.000₫",
+                "newprice": "93.500.000đ",
+                "giamgia": "7%",
+                "soluong": 5,
+                "sanphamcon": 4,
+                "description": "<p>Bộ máy chủ Supermicro VFG-SYS-531A-I-1651 (Xeon W5-2555X, 16GB DDR5 ECC, SSD 240GB)</p><ul><li>Dòng máy chủ: Supermicro</li><li>Mainboard: Supermicro X13SRA-TF</li><li>CPU: Intel Xeon W5-2555X</li><li>RAM: 16GB DDR5 ECC</li><li>Ổ cứng: SSD 2.5 SATA 240GB</li></ul>",
+                "specs": "<table class='table table-bordered'><tr><th>CPU</th><td>1 x Intel Xeon W5-2555X</td></tr><tr><th>RAM</th><td>1 x 16GB DDR5-5600 ECC RDIMM</td></tr><tr><th>PSU</th><td>1200W Power Supply</td></tr><tr><th>Ổ cứng</th><td>SSD 2.5 SATA 240GB</td></tr><tr><th>Tản nhiệt CPU</th><td>	1 x SNK-P0090AP4</td></tr></table>"
     },
     {
-        id: 4,
-        title: "Bộ PC Đồ Hoạ Core i7-14700F, RAM 32GB DDR5, RTX 5070 Ultra White",
-        img: "https://nguyencongpc.vn/media/product/250-26979-pc-dohoa-core-i7-14700k-ram-32g-ddr5-rtx-5070-ultra-white.jpg",
-        oldprice: "56.990.000₫",
-        newprice: "50.370.000đ",
-        giamgia: "12%",
-        soluong: 5,
-        sanphamcon: 4
+        "id": "4",
+                "title": "Bộ máy chủ Supermicro VFG-SYS-531A-I-1651 (Xeon W5-2555X, 16GB DDR5 ECC, SSD 240GB)",
+                "img": "https://nguyencongpc.vn/media/product/250-29260-supermicro-vfg-sys-531a-i-1651-05.jpg",
+                "oldprice": "105.990.000₫",
+                "newprice": "93.500.000đ",
+                "giamgia": "7%",
+                "soluong": 5,
+                "sanphamcon": 4,
+                "description": "<p>Bộ máy chủ Supermicro VFG-SYS-531A-I-1651 (Xeon W5-2555X, 16GB DDR5 ECC, SSD 240GB)</p><ul><li>Dòng máy chủ: Supermicro</li><li>Mainboard: Supermicro X13SRA-TF</li><li>CPU: Intel Xeon W5-2555X</li><li>RAM: 16GB DDR5 ECC</li><li>Ổ cứng: SSD 2.5 SATA 240GB</li></ul>",
+                "specs": "<table class='table table-bordered'><tr><th>CPU</th><td>1 x Intel Xeon W5-2555X</td></tr><tr><th>RAM</th><td>1 x 16GB DDR5-5600 ECC RDIMM</td></tr><tr><th>PSU</th><td>1200W Power Supply</td></tr><tr><th>Ổ cứng</th><td>SSD 2.5 SATA 240GB</td></tr><tr><th>Tản nhiệt CPU</th><td>	1 x SNK-P0090AP4</td></tr></table>"
     },
     {
-        id: 5,
-        title: "Laptop Dell PV 15250 Essential (Core 3-100U, 8GB RAM, 512GB SSD, 15.6 inch FHD 120Hz, Intel Graphics, Black, NK Full VAT)",
-        img: "https://nguyencongpc.vn/media/product/250-28648-laptop-dell-pv-15250-essential.jpg",
-        oldprice: "15.690.000₫",
-        newprice: "11.990.000đ",
-        giamgia: "24%",
-        soluong: 5,
-        sanphamcon: 2
+       "id": "5",
+                "title": "Bộ máy chủ Supermicro VFG-SYS-531A-I-1651 (Xeon W5-2555X, 16GB DDR5 ECC, SSD 240GB)",
+                "img": "https://nguyencongpc.vn/media/product/250-29260-supermicro-vfg-sys-531a-i-1651-05.jpg",
+                "oldprice": "105.990.000₫",
+                "newprice": "93.500.000đ",
+                "giamgia": "7%",
+                "soluong": 5,
+                "sanphamcon": 4,
+                "description": "<p>Bộ máy chủ Supermicro VFG-SYS-531A-I-1651 (Xeon W5-2555X, 16GB DDR5 ECC, SSD 240GB)</p><ul><li>Dòng máy chủ: Supermicro</li><li>Mainboard: Supermicro X13SRA-TF</li><li>CPU: Intel Xeon W5-2555X</li><li>RAM: 16GB DDR5 ECC</li><li>Ổ cứng: SSD 2.5 SATA 240GB</li></ul>",
+                "specs": "<table class='table table-bordered'><tr><th>CPU</th><td>1 x Intel Xeon W5-2555X</td></tr><tr><th>RAM</th><td>1 x 16GB DDR5-5600 ECC RDIMM</td></tr><tr><th>PSU</th><td>1200W Power Supply</td></tr><tr><th>Ổ cứng</th><td>SSD 2.5 SATA 240GB</td></tr><tr><th>Tản nhiệt CPU</th><td>	1 x SNK-P0090AP4</td></tr></table>"
     },
     {
         id: 6,
@@ -118,45 +128,5 @@ const product = [
         giamgia: "19%",
         soluong: 30,
         sanphamcon: 9
-    },
-    {
-        id: 13,
-        title: "Card màn hình PNY GeForce RTX 5060 8GB ARGB EPIC-X RGB OC Triple Fan (VCG50608TFXXPB1-O)",
-        img: "https://nguyencongpc.vn/media/product/250-28085-pny-rtx-5060-argb-oc-epic-x-triple-fan-01.jpg",
-        oldprice: "10.990.000₫",
-        newprice: "9.590.000đ",
-        giamgia: "13%",
-        soluong: 3,
-        sanphamcon: 1
-    },
-    {
-        id: 14,
-        title: "Laptop GIGABYTE AORUS MASTER 16 BYH-C5VNE64SH (Intel Core Ultra 9 Processor 275HX | RTX 5080 16GB | RAM 32GB | SSD 1TB | 16 inch WQXGA 240Hz | Win 11)",
-        img: "https://nguyencongpc.vn/media/product/250-27604-aorus-master-16-byh-c5vne64sh.jpg",
-        oldprice: "110.000.000₫",
-        newprice: "88.000.000đ",
-        giamgia: "20%",
-        soluong: 3,
-        sanphamcon: 1
-    },
-    {
-        id: 15,
-        title: "Laptop Dell Vostro 3530 (Intel Core i7-1255U | RTX 4050 8GB | RAM 16GB | SSD 512GB | 15.6 inch FHD | Win 11)",
-        img: "https://nguyencongpc.vn/media/product/250-27851-laptop_dell_vostro_3530__0002.jpg",
-        oldprice: "15.990.000₫",
-        newprice: "13.591.500đ",
-        giamgia: "15%",
-        soluong: 8,
-        sanphamcon: 1
-    },
-    {
-        id: 16,
-        title: "Màn Hình ASUS ProArt PA278CV 27 inch 4K IPS",
-        img: "https://nguyencongpc.vn/media/product/250-18771-asus-proart-pa278cv-1010101.jpg",
-        oldprice: "10.080.000₫",
-        newprice: "8.568.000đ",
-        giamgia: "15%",
-        soluong: 30,
-        sanphamcon: 3
     }
-]
+];

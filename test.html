@@ -1,104 +1,806 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyFlix - Xem Phim Online</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #141414;
-            color: #fff;
-        }
-        header {
-            background-color: #1f1f1f;
-            padding: 20px;
-            text-align: center;
-            font-size: 2em;
-            font-weight: bold;
-        }
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            padding: 20px;
-        }
-        .movie-card {
-            background-color: #222;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-        .movie-card:hover {
-            transform: scale(1.05);
-        }
-        .movie-card img {
-            width: 100%;
-            display: block;
-        }
-        .movie-info {
-            padding: 10px;
-        }
-        .movie-title {
-            font-size: 1em;
-            font-weight: bold;
-            margin: 0 0 5px 0;
-        }
-        .movie-rate {
-            font-size: 0.9em;
-            color: #f1c40f;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #1f1f1f;
-            font-size: 0.9em;
-            color: #999;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quyển sách lật trang 3D</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --book-w: min(92vw, 1180px);
+      --book-h: min(70vh, 760px);
+      --page-bg: #fffdf8;
+      --cover-1: #155dfc;
+      --cover-2: #0f3ea8;
+      --ink: #1f2937;
+      --accent: #f59e0b;
+      --shadow: 0 30px 70px rgba(0,0,0,.28);
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.45), transparent 30%),
+        linear-gradient(135deg, #dbeafe 0%, #eff6ff 28%, #f8fafc 60%, #e0f2fe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .scene {
+      width: 100%;
+      max-width: 1380px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .stage {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 2600px;
+      min-height: calc(var(--book-h) + 90px);
+    }
+
+    .floor-shadow {
+      position: absolute;
+      width: calc(var(--book-w) * .92);
+      height: 60px;
+      bottom: 8px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,.25), transparent 70%);
+      filter: blur(10px);
+      transform: translateY(10px);
+    }
+
+    .book {
+      position: relative;
+      width: var(--book-w);
+      height: var(--book-h);
+      transform-style: preserve-3d;
+      user-select: none;
+    }
+
+    .spine-glow {
+      position: absolute;
+      left: 50%;
+      top: 2%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 96%;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.45), rgba(0,0,0,.12), rgba(255,255,255,.35));
+      box-shadow: 0 0 18px rgba(255,255,255,.28);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .book-base {
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #d6d3d1, #bfbab4);
+      transform: translateZ(-26px);
+      box-shadow: var(--shadow);
+    }
+
+    .book-edge {
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      width: 18px;
+      background: linear-gradient(90deg, #d6d3d1, #f5f5f4, #c7c2bc);
+      z-index: 1;
+    }
+    .book-edge.left { left: -8px; border-radius: 10px 0 0 10px; }
+    .book-edge.right { right: -8px; border-radius: 0 10px 10px 0; }
+
+    .page-stack-left,
+    .page-stack-right {
+      position: absolute;
+      top: 14px;
+      width: calc(50% - 12px);
+      height: calc(100% - 28px);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #faf7f0, #efe8db 40%, #f8f4ec);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06), inset 0 0 14px rgba(0,0,0,.07);
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .page-stack-left { left: 12px; }
+    .page-stack-right { right: 12px; }
+
+    .page-stack-left::before,
+    .page-stack-right::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(0,0,0,.012) 0 2px,
+        rgba(255,255,255,.4) 2px 4px
+      );
+      opacity: .8;
+    }
+
+    .sheet {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .sheet.flipped {
+      pointer-events: none;
+    }
+
+    .page {
+      position: absolute;
+      top: 14px;
+      width: calc(50% - 12px);
+      height: calc(100% - 28px);
+      background: var(--page-bg);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow:
+        inset 0 0 30px rgba(255,255,255,.35),
+        0 8px 20px rgba(0,0,0,.08);
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.05), transparent 8%),
+        linear-gradient(180deg, rgba(255,255,255,.22), transparent 35%);
+      pointer-events: none;
+    }
+
+    .page.left {
+      left: 12px;
+      transform-origin: right center;
+    }
+
+    .page.right {
+      right: 12px;
+      transform-origin: left center;
+      transform: rotateY(0deg);
+    }
+
+    .sheet .page.front {
+      right: 12px;
+      transform-origin: left center;
+      transition: transform 1s cubic-bezier(.2,.72,.2,1);
+      z-index: 2;
+    }
+
+    .sheet .page.back {
+      left: 12px;
+      transform: rotateY(180deg);
+      transform-origin: right center;
+      transition: transform 1s cubic-bezier(.2,.72,.2,1);
+      z-index: 1;
+    }
+
+    .sheet.flipped .front {
+      transform: rotateY(-180deg);
+    }
+
+    .sheet.flipped .back {
+      transform: rotateY(0deg);
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: 28px 30px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cover {
+      color: white;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,.12), transparent 24%),
+        linear-gradient(135deg, var(--cover-1), var(--cover-2));
+    }
+
+    .cover .page-content {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 36px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .cover h1 {
+      margin: 10px 0 0;
+      font-size: clamp(28px, 4vw, 54px);
+      line-height: 1.04;
+    }
+
+    .cover p {
+      margin: 0;
+      font-size: clamp(14px, 1.5vw, 18px);
+      max-width: 420px;
+      line-height: 1.7;
+      opacity: .95;
+    }
+
+    .illustration {
+      width: 200px;
+      height: 200px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 0 30px rgba(255,255,255,.1);
+      margin-bottom: 18px;
+      font-size: 84px;
+    }
+
+    .chapter-title {
+      margin: 0;
+      font-size: clamp(20px, 2vw, 30px);
+      line-height: 1.25;
+    }
+
+    .lead {
+      margin: 0;
+      color: #475569;
+      line-height: 1.75;
+      font-size: clamp(14px, 1.2vw, 16px);
+    }
+
+    .section {
+      display: grid;
+      gap: 10px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .mini-card {
+      padding: 14px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      border: 1px solid rgba(15,23,42,.08);
+      box-shadow: 0 6px 16px rgba(15,23,42,.05);
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .mini-card span,
+    ul li,
+    ol li {
+      color: #475569;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .page-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(15,23,42,.12);
+      font-size: 13px;
+      color: #64748b;
+      margin-top: auto;
+    }
+
+    .page-no {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .highlight {
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #fef3c7, #fff7dd);
+      border-left: 5px solid var(--accent);
+      font-size: 14px;
+      line-height: 1.7;
+      color: #6b4f00;
+    }
+
+    .toolbar {
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(15,23,42,.08);
+      padding: 20px;
+      display: grid;
+      gap: 16px;
+      align-self: stretch;
+    }
+
+    .toolbar h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .toolbar p {
+      margin: 0;
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+
+    button:hover { transform: translateY(-2px); }
+    button:active { transform: translateY(0); }
+    button.primary {
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      box-shadow: 0 12px 24px rgba(37,99,235,.28);
+    }
+    button.secondary {
+      color: #0f172a;
+      background: white;
+      border: 1px solid rgba(15,23,42,.08);
+      box-shadow: 0 10px 20px rgba(15,23,42,.06);
+    }
+
+    .status {
+      display: grid;
+      gap: 8px;
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f8fafc, #ffffff);
+      border: 1px solid rgba(15,23,42,.08);
+    }
+
+    .progress {
+      height: 10px;
+      width: 100%;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #2563eb, #60a5fa);
+      transition: width .35s ease;
+    }
+
+    .thumbs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .thumb {
+      padding: 12px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid rgba(15,23,42,.08);
+      box-shadow: 0 8px 16px rgba(15,23,42,.05);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .thumb strong { display: block; margin-bottom: 4px; }
+
+    .tips {
+      font-size: 13px;
+      color: #64748b;
+      line-height: 1.7;
+    }
+
+    ul, ol {
+      margin: 0;
+      padding-left: 20px;
+      display: grid;
+      gap: 6px;
+    }
+
+    @media (max-width: 1100px) {
+      .scene {
+        grid-template-columns: 1fr;
+      }
+      .toolbar {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 800px) {
+      :root {
+        --book-w: min(96vw, 860px);
+        --book-h: min(60vh, 620px);
+      }
+      .page-content { padding: 18px 18px 14px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .thumbs { grid-template-columns: 1fr 1fr; }
+      .controls { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      :root {
+        --book-h: min(56vh, 520px);
+      }
+      .thumbs { grid-template-columns: 1fr; }
+      .illustration { width: 120px; height: 120px; font-size: 56px; }
+      .cover p { max-width: 100%; }
+    }
+  </style>
 </head>
 <body>
-    <header>MyFlix</header>
-    <div class="movie-grid" id="movieGrid">
-        <!-- Phim sẽ được load vào đây -->
+    <h2>nhóm 3</h2>
+  <div class="scene">
+    <div class="stage">
+      <div class="floor-shadow"></div>
+      <div class="book" id="book">
+        <div class="book-base"></div>
+        <div class="book-edge left"></div>
+        <div class="book-edge right"></div>
+        <div class="page-stack-left"></div>
+        <div class="page-stack-right"></div>
+        <div class="spine-glow"></div>
+      </div>
     </div>
-    <footer>© 2026 MyFlix - Demo xem phim</footer>
 
-    <script>
-        const options = { method: 'GET', headers: { accept: 'application/json' } };
+    <aside class="toolbar">
+      <div>
+        <h2>Flipbook 3D 📘</h2>
+        <p>Mẫu này làm theo kiểu sách số: có bìa, lật trang 3D, nút chuyển trang, số trang, và bạn có thể thay toàn bộ nội dung rất nhanh trong mảng <code>pages</code>.</p>
+      </div>
 
-        async function loadMovies() {
-            try {
-                const res = await fetch('https://ophim1.com/v1/api/home', options);
-                const data = await res.json();
+      <div class="controls">
+        <button class="secondary" id="prevBtn">◀ Trang trước</button>
+        <button class="primary" id="nextBtn">Trang sau ▶</button>
+      </div>
 
-                const movies = data.items[0].items; // lấy danh sách phim hot
-                const grid = document.getElementById('movieGrid');
+      <div class="status">
+        <div><strong id="pageInfo">Trang 1 / 8</strong></div>
+        <div class="progress"><span id="progressBar"></span></div>
+      </div>
 
-                movies.forEach(movie => {
-                    const card = document.createElement('div');
-                    card.className = 'movie-card';
-                    card.innerHTML = `
-                        <img src="${movie.coverHorizontal}" alt="${movie.title}">
-                        <div class="movie-info">
-                            <div class="movie-title">${movie.title}</div>
-                            <div class="movie-rate">⭐ ${movie.imdb || 'N/A'}</div>
-                        </div>
-                    `;
-                    card.addEventListener('click', () => {
-                        alert('Chức năng xem phim chưa được tích hợp.\nBạn có thể thêm iframe player hoặc trang chi tiết phim ở đây.');
-                    });
-                    grid.appendChild(card);
-                });
-            } catch (err) {
-                console.error(err);
-                alert('Không thể tải phim, vui lòng thử lại sau.');
-            }
-        }
+      <div class="thumbs">
+        <div class="thumb"><strong>Thay nội dung</strong>Sửa trong biến <code>pages</code> ở cuối file.</div>
+        <div class="thumb"><strong>Thêm trang</strong>Chỉ cần thêm object mới vào mảng.</div>
+        <div class="thumb"><strong>Đổi màu bìa</strong>Sửa <code>--cover-1</code> và <code>--cover-2</code>.</div>
+        <div class="thumb"><strong>To hơn / nhỏ hơn</strong>Sửa <code>--book-w</code> và <code>--book-h</code>.</div>
+      </div>
 
-        loadMovies();
-    </script>
+      <div class="tips">
+        Mẹo: nhấn phím <strong>←</strong> <strong>→</strong> để lật trang. Trên điện thoại có thể vuốt trái / phải.
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const pages = [
+      {
+        type: 'cover',
+        title: 'TIẾNG ANH 8',
+        subtitle: 'Sách học dạng số với hiệu ứng lật trang 3D chân thực',
+        badge: 'EDU BOOK',
+        icon: '📘'
+      },
+      {
+        type: 'content',
+        title: 'Unit 1 — Getting Started',
+        lead: 'Đây là ví dụ nội dung trang bên trong. Bạn có thể thay bằng bài học, hình ảnh, câu hỏi, từ vựng hoặc bất kỳ nội dung nào bạn muốn.',
+        blocks: [
+          { kind: 'cards', items: [
+            ['Mục tiêu', 'Luyện từ vựng, đọc hiểu và phản xạ giao tiếp cơ bản.'],
+            ['Trọng tâm', 'Thì hiện tại đơn, từ vựng chủ đề trường học.']
+          ]},
+          { kind: 'highlight', text: 'Bạn có thể dùng mẫu này để làm sách giáo khoa điện tử, truyện tranh, catalogue sản phẩm hoặc profile công ty.' }
+        ]
+      },
+      {
+        type: 'content',
+        title: 'Từ vựng chính',
+        lead: 'Ví dụ bố cục dạng danh sách dễ học và dễ thay.',
+        blocks: [
+          { kind: 'list', ordered: false, items: [
+            'classmate — bạn cùng lớp',
+            'subject — môn học',
+            'uniform — đồng phục',
+            'playground — sân chơi',
+            'library — thư viện'
+          ]}
+        ]
+      },
+      {
+        type: 'content',
+        title: 'Ngữ pháp',
+        lead: 'Bạn có thể chia nhỏ nội dung thành các ô như giao diện sách học hiện đại.',
+        blocks: [
+          { kind: 'cards', items: [
+            ['Present Simple', 'I go to school every day.'],
+            ['Adverbs of Frequency', 'always, usually, often, sometimes, never'],
+            ['Question Form', 'Do you like English?'],
+            ['Short Answer', 'Yes, I do. / No, I don’t.']
+          ]}
+        ]
+      },
+      {
+        type: 'content',
+        title: 'Reading',
+        lead: 'Đoạn văn mẫu để mô phỏng nội dung đọc hiểu trong sách.',
+        blocks: [
+          { kind: 'paragraph', text: 'My name is Nam. I am a student in grade 8. I usually get up at 6 a.m. and go to school at 7 a.m. My favorite subject is English because I like learning new words and speaking with my friends.' },
+          { kind: 'highlight', text: 'Bạn cũng có thể thay block này bằng ảnh, video nhúng, audio, bài tập trắc nghiệm hoặc PDF.' }
+        ]
+      },
+      {
+        type: 'content',
+        title: 'Exercises',
+        lead: 'Phần bài tập có thể trình bày dưới dạng danh sách có số thứ tự.',
+        blocks: [
+          { kind: 'list', ordered: true, items: [
+            'Complete the sentences with the correct words.',
+            'Choose the best answer A, B, C or D.',
+            'Write 5 sentences about your school.',
+            'Practice the dialogue with your partner.'
+          ]}
+        ]
+      },
+      {
+        type: 'content',
+        title: 'Ghi chú giáo viên',
+        lead: 'Trang này mô phỏng phần nhận xét hoặc ghi chú thêm.',
+        blocks: [
+          { kind: 'cards', items: [
+            ['Lưu ý 1', 'Ưu tiên cỡ chữ lớn để học sinh đọc tốt hơn.'],
+            ['Lưu ý 2', 'Nên dùng hình minh hoạ để tăng trực quan.']
+          ]},
+          { kind: 'paragraph', text: 'Mỗi trang có thể có bố cục khác nhau nhưng vẫn giữ hiệu ứng lật trang thống nhất.' }
+        ]
+      },
+      {
+        type: 'cover',
+        title: 'HẾT BÀI',
+        subtitle: 'Bạn có thể thêm các unit khác, mục lục, bài kiểm tra hoặc trang cảm ơn.',
+        badge: 'FINISH',
+        icon: '✨'
+      }
+    ];
+
+    const book = document.getElementById('book');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo = document.getElementById('pageInfo');
+    const progressBar = document.getElementById('progressBar');
+
+    let currentSpread = 0; // mỗi spread gồm 2 trang
+    const totalPages = pages.length;
+    const totalSpreads = Math.ceil(totalPages / 2);
+
+    function blockTemplate(block) {
+      if (block.kind === 'cards') {
+        return `
+          <div class="card-grid">
+            ${block.items.map(([title, text]) => `
+              <div class="mini-card">
+                <strong>${title}</strong>
+                <span>${text}</span>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      if (block.kind === 'list') {
+        const Tag = block.ordered ? 'ol' : 'ul';
+        return `<${Tag}>${block.items.map(item => `<li>${item}</li>`).join('')}</${Tag}>`;
+      }
+
+      if (block.kind === 'paragraph') {
+        return `<p class="lead">${block.text}</p>`;
+      }
+
+      if (block.kind === 'highlight') {
+        return `<div class="highlight">${block.text}</div>`;
+      }
+
+      return '';
+    }
+
+    function renderPageContent(page, index) {
+      const pageNumber = index + 1;
+
+      if (!page) {
+        return `
+          <div class="page-content">
+            <div class="section">
+              <h3 class="chapter-title">Trang trống</h3>
+            </div>
+            <div class="page-footer"><span></span><span class="page-no">${pageNumber}</span></div>
+          </div>
+        `;
+      }
+
+      if (page.type === 'cover') {
+        return `
+          <div class="page-content cover">
+            <div class="illustration">${page.icon || '📖'}</div>
+            <div class="badge">${page.badge || 'BOOK'}</div>
+            <h1>${page.title}</h1>
+            <p>${page.subtitle || ''}</p>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="page-content">
+          <div class="section">
+            <h3 class="chapter-title">${page.title}</h3>
+            ${page.lead ? `<p class="lead">${page.lead}</p>` : ''}
+            ${(page.blocks || []).map(blockTemplate).join('')}
+          </div>
+          <div class="page-footer">
+            <span>Flipbook Demo</span>
+            <span class="page-no">${pageNumber}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function createStaticLeftPage(page, index) {
+      const el = document.createElement('div');
+      el.className = 'page left';
+      el.innerHTML = renderPageContent(page, index);
+      return el;
+    }
+
+    function createSheet(frontPage, backPage, index) {
+      const sheet = document.createElement('div');
+      sheet.className = 'sheet';
+      sheet.dataset.index = index;
+      sheet.style.zIndex = 100 - index;
+
+      const front = document.createElement('div');
+      front.className = 'page front';
+      front.innerHTML = renderPageContent(frontPage, index * 2 + 1);
+
+      const back = document.createElement('div');
+      back.className = 'page back';
+      back.innerHTML = renderPageContent(backPage, index * 2 + 2);
+
+      sheet.appendChild(front);
+      sheet.appendChild(back);
+      return sheet;
+    }
+
+    function buildBook() {
+      document.querySelectorAll('.sheet, .page.left.static-left').forEach(el => el.remove());
+
+      const leftPage = createStaticLeftPage(pages[0], 0);
+      leftPage.classList.add('static-left');
+      book.appendChild(leftPage);
+
+      for (let i = 0; i < totalSpreads - 1; i++) {
+        const frontPage = pages[i * 2 + 1];
+        const backPage = pages[i * 2 + 2];
+        const sheet = createSheet(frontPage, backPage, i);
+        book.appendChild(sheet);
+      }
+
+      updateBook();
+    }
+
+    function updateBook() {
+      const sheets = [...document.querySelectorAll('.sheet')];
+      sheets.forEach((sheet, i) => {
+        if (i < currentSpread) sheet.classList.add('flipped');
+        else sheet.classList.remove('flipped');
+        sheet.style.zIndex = i < currentSpread ? i + 1 : 100 - i;
+      });
+
+      const leftStatic = document.querySelector('.page.left.static-left');
+      if (leftStatic) {
+        leftStatic.style.visibility = currentSpread === 0 ? 'visible' : 'hidden';
+      }
+
+      const currentPage = Math.min(currentSpread * 2 + 1, totalPages);
+      pageInfo.textContent = `Trang ${currentPage} / ${totalPages}`;
+      progressBar.style.width = `${((currentPage - 1) / (totalPages - 1)) * 100}%`;
+
+      prevBtn.disabled = currentSpread === 0;
+      nextBtn.disabled = currentSpread >= totalSpreads - 1;
+      prevBtn.style.opacity = prevBtn.disabled ? '.55' : '1';
+      nextBtn.style.opacity = nextBtn.disabled ? '.55' : '1';
+    }
+
+    function nextPage() {
+      if (currentSpread < totalSpreads - 1) {
+        currentSpread++;
+        updateBook();
+      }
+    }
+
+    function prevPage() {
+      if (currentSpread > 0) {
+        currentSpread--;
+        updateBook();
+      }
+    }
+
+    nextBtn.addEventListener('click', nextPage);
+    prevBtn.addEventListener('click', prevPage);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextPage();
+      if (e.key === 'ArrowLeft') prevPage();
+    });
+
+    let touchStartX = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      const diff = e.changedTouches[0].clientX - touchStartX;
+      if (diff < -40) nextPage();
+      if (diff > 40) prevPage();
+    }, { passive: true });
+
+    buildBook();
+  </script>
 </body>
 </html>

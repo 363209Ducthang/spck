@@ -114,3 +114,32 @@ body {
   color: #fff;
   font-weight: 600;
 }
+/* thanh cuoi */
+.chinhsach {
+    display:flex ;
+    justify-content: center;
+}
+.thanhcuoi-phantren {
+    display:flex ;
+    justify-content: space-around;
+    background-color: #b5b8c2;
+    color: white;
+    position: relative;
+}
+.thanhcuoi-phantren_tieude {
+    margin:3% 3%;
+}
+#thanhcuoi-phantren {
+    position: absolute;
+    background-color: #ccc5c5;
+    color: #262626;
+    margin: 3%;
+}
+#thanhcuoi-phanduoi_noidung {
+    margin: 2%;
+}
+#thanhcuoi-phanduoi_noidung2 {
+    display: flex;
+    gap: 20px;
+    margin: 2% 3%;
+}
